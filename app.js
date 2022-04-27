@@ -1,16 +1,16 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const fs = require('fs')
 const app = express()
-const db = mongoose.connect('mongodb://localhost/movieAPI')
 const movieRouter = express.Router()
 const port = process.env.PORT || 8082
-const Movie = require('./models/movieModel')
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
 
+app.use(express.json())
+
+
+mongoose.connect(process.env.MONGO_URL)
+app.use('/', movieRouter)
+const Movie = require('./models/movieModel')
 movieRouter
   .route('/api')
   .post((req, res) => {
@@ -89,8 +89,6 @@ movieRouter
       return res.json(movie)
     })
   })
-
-app.use('/', movieRouter)
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
