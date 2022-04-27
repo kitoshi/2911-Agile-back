@@ -75,9 +75,9 @@ movieRouter
   .put((req, res) => {
     const { movie } = req
     movie.time = req.body.time
-    movie.movieNumber = req.body.movieNumber
-    movie.location = req.body.location
-    movie.instructor = req.body.instructor
+    movie.votes = req.body.votes
+    movie.rating = req.body.rating
+    movie.year = req.body.year
     movie.save()
     return res.json(movie)
   })
