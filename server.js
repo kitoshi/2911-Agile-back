@@ -3,10 +3,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const movieRouter = express.Router()
-const port = process.env.PORT || 8082
+const port = process.env.PORT || 8080
 
 app.use(express.json())
-
 
 mongoose.connect(process.env.MONGO_URL)
 app.use('/', movieRouter)
