@@ -1,16 +1,21 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const fs = require('fs')
+const cors = require('cors')
 const app = express()
-const db = mongoose.connect('mongodb://localhost/movieAPI')
 const movieRouter = express.Router()
-const port = process.env.PORT || 8082
-const Movie = require('./models/movieModel')
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+const port = process.env.PORT || 8080
+const bodyParser = require('body-parser')
+app.use(cors())
+app.use(express.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
+mongoose.connect(process.env.MONGO_URL)
 
+const Movie = require('./models/movieModel')
 movieRouter
   .route('/api')
   .post((req, res) => {
@@ -74,7 +79,7 @@ movieRouter
   })
   .put((req, res) => {
     const { movie } = req
-    movie.time = req.body.time
+    movie.title = req.body.title
     movie.votes = req.body.votes
     movie.rating = req.body.rating
     movie.year = req.body.year
@@ -89,9 +94,7 @@ movieRouter
       return res.json(movie)
     })
   })
-
 app.use('/', movieRouter)
-
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
 })
