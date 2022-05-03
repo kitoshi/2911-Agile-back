@@ -16,6 +16,7 @@ app.use(
 mongoose.connect(process.env.MONGO_URL)
 
 const Movie = require('./models/movieModel')
+const { response } = require('express')
 movieRouter
   .route('/api')
   .post((req, res) => {
@@ -94,6 +95,20 @@ movieRouter
       return res.json(movie)
     })
   })
+
+movieRouter.route('/api/:movieId/votes').put(async (req, res) => {
+  try {
+    const updateVote = await Movie.findByIdAndUpdate(
+      req.body._id,
+      { $inc: { votes: 1 } },
+      { new: true }
+    )
+    res.json(updateVote)
+  } catch (error) {
+    res.status(400).end()
+  }
+})
+
 app.use('/', movieRouter)
 app.listen(port, () => {
   console.log(`Running on port ${port}`)

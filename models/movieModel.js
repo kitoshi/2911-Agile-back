@@ -4,7 +4,7 @@ const { Schema } = mongoose
 
 const movieModel = new Schema({
   title: { type: String },
-  votes: { type: String },
+  votes: { type: Number },
   rating: { type: String },
   year: { type: String }
 })
