@@ -84,6 +84,8 @@ movieRouter
     movie.votes = req.body.votes
     movie.rating = req.body.rating
     movie.year = req.body.year
+    movie.trailer = req.body.trailer
+    movie.summary = req.body.summary
     movie.save()
     return res.json(movie)
   })
