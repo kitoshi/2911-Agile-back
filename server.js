@@ -20,9 +20,17 @@ const { response } = require('express')
 movieRouter
   .route('/api')
   .post((req, res) => {
-    const movie = new Movie(req.body)
-    movie.save()
-    return res.status(201).json(movie)
+    if (req.body.length() > 1) {
+      for (const item in req.body) {
+        const movie = new Movie(item)
+        movie.save()
+        return res.status(201).json(movie)
+      }
+    } else {
+      const movie = new Movie(req.body)
+      movie.save()
+      return res.status(201).json(movie)
+    }
   })
   .get((req, res) => {
     const query = {}
