@@ -120,6 +120,19 @@ movieRouter.route('/api/:movieId/votes').put(async (req, res) => {
   }
 })
 
+movieRouter.route('/api/:movieId/downvotes').put(async (req, res) => {
+  try {
+    const updateVote = await Movie.findByIdAndUpdate(
+      req.body._id,
+      { $inc: { votes: -1 } },
+      { new: true }
+    )
+    res.json(updateVote)
+  } catch (error) {
+    res.status(400).end()
+  }
+})
+
 app.use('/', movieRouter)
 app.listen(port, () => {
   console.log(`Running on port ${port}`)
