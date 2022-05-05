@@ -2,20 +2,19 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const app = express()
 const movieRouter = express.Router()
 const bodyParser = require('body-parser')
 const createServer = require('./create_server')
-app.use(cors())
-app.use(express.json())
-app.use(
+createServer.app.use(cors())
+createServer.app.use(express.json())
+createServer.app.use(
   bodyParser.urlencoded({
     extended: true
   })
 )
-app.use('/', movieRouter)
+createServer.app.use('/', movieRouter)
 mongoose.connect(process.env.MONGO_URL)
-createServer()
+createServer.createServer()
 const Movie = require('./models/movieModel')
 const { response } = require('express')
 movieRouter
@@ -133,5 +132,3 @@ movieRouter.route('/api/:movieId/downvotes').put(async (req, res) => {
     res.status(400).end()
   }
 })
-
-module.exports = app

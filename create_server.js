@@ -7,4 +7,4 @@ function createServer() {
   })
 }
 
-module.exports = createServer
+module.exports = { createServer, app }
