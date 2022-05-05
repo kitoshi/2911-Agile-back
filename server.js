@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
 const movieRouter = express.Router()
-const port = process.env.PORT || 8080
 const bodyParser = require('body-parser')
+const createServer = require('./create_server')
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -13,8 +13,9 @@ app.use(
     extended: true
   })
 )
+app.use('/', movieRouter)
 mongoose.connect(process.env.MONGO_URL)
-
+createServer()
 const Movie = require('./models/movieModel')
 const { response } = require('express')
 movieRouter
@@ -133,7 +134,4 @@ movieRouter.route('/api/:movieId/downvotes').put(async (req, res) => {
   }
 })
 
-app.use('/', movieRouter)
-app.listen(port, () => {
-  console.log(`Running on port ${port}`)
-})
+module.exports = app
