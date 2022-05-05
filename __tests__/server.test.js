@@ -10,3 +10,7 @@ test('GET /api', async () => {
 test('GET /', async () => {
   await supertest(app).get('/').expect(404)
 })
+
+test('GET /api', async () => {
+  await supertest(app).get('/api/6272b2e349b22bb576873e7f').expect(200)
+})
