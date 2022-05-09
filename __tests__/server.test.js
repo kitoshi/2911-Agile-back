@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const createServer = require('../create_server')
-const app = require('../server')
+const app = require('../create_server')
 const supertest = require('supertest')
 
 const popularMovie = {
