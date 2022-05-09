@@ -1,11 +1,11 @@
 require('dotenv').config()
+const port = process.env.PORT || 8080
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
 const movieRouter = express.Router()
 const bodyParser = require('body-parser')
-const createServer = require('./create_server')
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -13,8 +13,13 @@ app.use(
     extended: true
   })
 )
-app.use('/', movieRouter)
+
 mongoose.connect(process.env.MONGO_URL)
+function createServer() {
+  app.listen(port, () => {
+    console.log(`Running on port ${port}`)
+  })
+}
 createServer()
 const Movie = require('./models/movieModel')
 const { response } = require('express')
@@ -133,5 +138,16 @@ movieRouter.route('/api/:movieId/downvotes').put(async (req, res) => {
     res.status(400).end()
   }
 })
+
+movieRouter.route('/api/popular').get(async (req, res) => {
+  try {
+    const findPopularMovie = await Movie.find({}).sort({ votes: -1 }).limit(1)
+    console.log(findPopularMovie[0])
+    res.json(findPopularMovie[0])
+  } catch (error) {
+    res.status(400).end()
+  }
+})
+app.use('/', movieRouter)
 
 module.exports = app
