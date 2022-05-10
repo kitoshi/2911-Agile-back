@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const createServer = require('../create_server')
-const app = require('../create_server')
+const app = require('../server')
 const supertest = require('supertest')
 
 const popularMovie = {
@@ -32,5 +32,5 @@ test('GET /api/popular', async () => {
 })
 
 test('GET JSON /api/popular api ', async () => {
-  await supertest(app).get('/api/popular').expect(popularMovie.toString())
+  await supertest(app).get('/api/popular').expect(popularMovie)
 })

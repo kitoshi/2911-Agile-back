@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const movieRouter = express.Router()
 const bodyParser = require('body-parser')
+const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(
@@ -50,6 +51,15 @@ movieRouter
       return res.json(movies)
     })
   })
+
+movieRouter.route('/api/popular').get(async (req, res) => {
+  try {
+    const findPopularMovie = await Movie.find({}).sort('-votes').limit(1)
+    res.json(findPopularMovie[0])
+  } catch (error) {
+    res.status(400).end()
+  }
+})
 
 movieRouter.use('/api/:movieId', (req, res, next) => {
   Movie.findById(req.params.movieId, (err, movie) => {
@@ -138,15 +148,6 @@ movieRouter.route('/api/:movieId/downvotes').put(async (req, res) => {
   }
 })
 
-movieRouter.route('/api/popular').get(async (req, res) => {
-  try {
-    const findPopularMovie = await Movie.find({}).sort({ votes: -1 }).limit(1)
-    console.log(findPopularMovie[0])
-    res.json(findPopularMovie[0])
-  } catch (error) {
-    res.status(400).end()
-  }
-})
 app.use('/', movieRouter)
 
 module.exports = app
