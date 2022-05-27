@@ -8,7 +8,7 @@
     Backend for CRUD and movie voting front-end to show top movie picks voted by the community
     <br />
     <br />
-    <a href="sofachill.herokuapp.com/">View Demo</a>
+    <a href="https://sofachill.herokuapp.com/">View Demo</a>
     ·
     <a href="https://github.com/kitoshi/2911-Agile-back/issues">Report Bug</a>
     ·
